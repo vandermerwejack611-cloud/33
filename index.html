@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simphiwe Mtetwa | Africa's Leading CSI News</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .swiper {
+            width: 100%;
+            height: 100vh;
+        }
+
+        .swiper-slide {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .swiper-slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(30, 41, 59, 0.7) 50%, rgba(15, 23, 42, 0.85) 100%);
+            z-index: 1;
+        }
+
+        .slide-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transform: scale(1.1);
+            transition: transform 10s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            filter: brightness(0.7);
+        }
+
+        .swiper-slide-active .slide-bg {
+            transform: scale(1);
+        }
+
+        .slide-content {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            padding: 0 8% 0 10%;
+        }
+
+        .content-left {
+            flex: 1;
+            color: #fff;
+            max-width: 750px;
+        }
+
+        .brand-tag {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: #f59e0b;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            transition: all 0.6s ease;
+            transform: translateY(30px);
+            opacity: 0;
+            display: inline-block;
+            padding: 8px 16px;
+            border: 2px solid #f59e0b;
+            border-radius: 4px;
+        }
+
+        .year {
+            font-family: 'Playfair Display', serif;
+            font-size: 5rem;
+            font-weight: 900;
+            line-height: 1;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            transition: all 0.6s ease 0.05s;
+            transform: translateY(30px);
+            opacity: 0;
+        }
+
+        .title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.2rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 4px 30px rgba(0,0,0,0.4);
+            transition: all 0.6s ease 0.1s;
+            transform: translateY(30px);
+            opacity: 0;
+            color: #fff;
+        }
+
+        .description {
+            font-size: 1.15rem;
+            line-height: 1.9;
+            color: #cbd5e1;
+            margin-bottom: 2.5rem;
+            transition: all 0.6s ease 0.2s;
+            transform: translateY(30px);
+            opacity: 0;
+            font-weight: 300;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 36px;
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            border-radius: 50px;
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 40px rgba(245, 158, 11, 0.4);
+            transform: translateY(30px);
+            opacity: 0;
+            transition: all 0.6s ease 0.25s, transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 50px rgba(245, 158, 11, 0.6);
+        }
+
+        .cta-button svg {
+            width: 20px;
+            height: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .cta-button:hover svg {
+            transform: translateX(5px);
+        }
+
+        .swiper-slide-active .brand-tag,
+        .swiper-slide-active .year,
+        .swiper-slide-active .title,
+        .swiper-slide-active .description,
+        .swiper-slide-active .cta-button {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .stats-row {
+            display: flex;
+            gap: 40px;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.15);
+            transform: translateY(30px);
+            opacity: 0;
+            transition: all 0.6s ease 0.3s;
+        }
+
+        .swiper-slide-active .stats-row {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .stat-item {
+            text-align: left;
+        }
+
+        .stat-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: #f59e0b;
+            line-height: 1;
+            margin-bottom: 0.3rem;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 500;
+        }
+
+        /* Timeline Navigation */
+        .timeline-container {
+            position: fixed;
+            right: 60px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+        }
+
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            cursor: pointer;
+            padding: 12px 0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+
+        .timeline-item:hover {
+            transform: translateX(-8px);
+        }
+
+        .timeline-line {
+            width: 45px;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(245, 158, 11, 0.3) 0%, rgba(245, 158, 11, 0.1) 100%);
+            position: relative;
+            transition: all 0.4s ease;
+            border-radius: 2px;
+        }
+
+        .timeline-item.active .timeline-line,
+        .timeline-item:hover .timeline-line {
+            background: linear-gradient(90deg, #f59e0b 0%, #fbbf24 100%);
+            width: 70px;
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.5);
+        }
+
+        .timeline-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: 2.5px solid rgba(245, 158, 11, 0.5);
+            background: transparent;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .timeline-dot::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 6px;
+            height: 6px;
+            background: #f59e0b;
+            border-radius: 50%;
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+
+        .timeline-item.active .timeline-dot,
+        .timeline-item:hover .timeline-dot {
+            border-color: #f59e0b;
+            background: rgba(245, 158, 11, 0.2);
+            transform: scale(1.3);
+            box-shadow: 0 0 25px rgba(245, 158, 11, 0.6), 0 0 50px rgba(245, 158, 11, 0.3);
+        }
+
+        .timeline-item.active .timeline-dot::after,
+        .timeline-item:hover .timeline-dot::after {
+            opacity: 1;
+        }
+
+        .timeline-year {
+            color: rgba(203, 213, 225, 0.6);
+            font-size: 1rem;
+            font-weight: 600;
+            min-width: 65px;
+            transition: all 0.4s ease;
+            letter-spacing: 1.5px;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .timeline-item.active .timeline-year,
+        .timeline-item:hover .timeline-year {
+            color: #fbbf24;
+            font-weight: 700;
+            text-shadow: 0 0 20px rgba(245, 158, 11, 0.5);
+        }
+
+        /* Navigation */
+        .navigation {
+            position: fixed;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .nav-btn {
+            width: 56px;
+            height: 56px;
+            border: 2px solid rgba(245, 158, 11, 0.4);
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(20px);
+            color: #f59e0b;
+            font-size: 1.3rem;
+            cursor: pointer;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-btn:hover {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            border-color: #f59e0b;
+            color: #fff;
+            transform: scale(1.1) translateY(-3px);
+            box-shadow: 0 15px 45px rgba(245, 158, 11, 0.5);
+        }
+
+        .scroll-indicator {
+            position: fixed;
+            bottom: 130px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            color: rgba(203, 213, 225, 0.6);
+            font-size: 0.9rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            animation: bounce 2.5s infinite;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+
+        .scroll-indicator .mouse-icon {
+            width: 24px;
+            height: 38px;
+            border: 2px solid rgba(245, 158, 11, 0.5);
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .scroll-indicator .mouse-wheel {
+            width: 4px;
+            height: 8px;
+            background: #f59e0b;
+            border-radius: 2px;
+            position: absolute;
+            top: 6px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: scrollWheel 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
+        }
+
+        @keyframes scrollWheel {
+            0%, 100% { opacity: 1; top: 6px; }
+            50% { opacity: 0.3; top: 16px; }
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #f59e0b 0%, #fbbf24 50%, #f59e0b 100%);
+            z-index: 100;
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 2px 20px rgba(245, 158, 11, 0.6);
+        }
+
+        /* Logo */
+        .logo {
+            position: fixed;
+            top: 40px;
+            left: 50px;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: #fff;
+            letter-spacing: 1px;
+        }
+
+        .logo-accent {
+            color: #f59e0b;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .timeline-container {
+                right: 35px;
+                gap: 24px;
+            }
+            
+            .title {
+                font-size: 2.6rem;
+            }
+            
+            .year {
+                font-size: 4rem;
+            }
+
+            .content-left {
+                max-width: 600px;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .timeline-container {
+                right: 25px;
+                gap: 20px;
+            }
+            
+            .timeline-year {
+                font-size: 0.9rem;
+                min-width: 55px;
+            }
+            
+            .title {
+                font-size: 2.2rem;
+            }
+            
+            .year {
+                font-size: 3.5rem;
+            }
+
+            .stats-row {
+                gap: 25px;
+            }
+
+            .stat-number {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .timeline-container {
+                position: static;
+                flex-direction: row;
+                justify-content: center;
+                flex-wrap: wrap;
+                padding: 20px;
+                gap: 15px;
+                background: rgba(15, 23, 42, 0.95);
+                backdrop-filter: blur(20px);
+                bottom: 120px;
+                top: auto;
+                transform: none;
+                border-top: 1px solid rgba(245, 158, 11, 0.2);
+            }
+            
+            .timeline-item {
+                flex-direction: column-reverse;
+                gap: 8px;
+                padding: 8px;
+            }
+            
+            .timeline-line {
+                display: none;
+            }
+            
+            .content-left {
+                text-align: center;
+                margin: 0 auto;
+                padding: 0 20px;
+            }
+            
+            .title {
+                font-size: 1.8rem;
+            }
+            
+            .year {
+                font-size: 2.8rem;
+            }
+            
+            .description {
+                font-size: 1rem;
+            }
+
+            .brand-tag {
+                font-size: 0.75rem;
+            }
+
+            .stats-row {
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 20px;
+            }
+
+            .stat-item {
+                text-align: center;
+            }
+
+            .navigation {
+                bottom: 30px;
+            }
+
+            .scroll-indicator {
+                display: none;
+            }
+
+            .logo {
+                top: 25px;
+                left: 25px;
+            }
+
+            .logo-text {
+                font-size: 1.2rem;
+            }
+
+            .slide-content {
+                padding: 80px 5% 150px;
+                align-items: flex-start;
+                padding-top: 120px;
+            }
+        }
+
+        /* Loader */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 30px;
+            transition: opacity 0.8s ease;
+        }
+
+        .loader.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loader-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: #fff;
+            letter-spacing: 2px;
+        }
+
+        .loader-logo span {
+            color: #f59e0b;
+        }
+
+        .loader-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(245, 158, 11, 0.2);
+            border-top-color: #f59e0b;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Particle effect overlay */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 3;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(245, 158, 11, 0.3);
+            border-radius: 50%;
+            animation: float 15s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Loader -->
+    <div class="loader" id="loader">
+        <div class="loader-logo">SIMPHIWE <span>MTETWA</span></div>
+        <div class="loader-spinner"></div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Particles -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Logo -->
+    <div class="logo">
+        <span class="logo-text">SIMPHIWE <span class="logo-accent">MTETWA</span></span>
+    </div>
+
+    <!-- Main Swiper -->
+    <div class="swiper main-swiper">
+        <div class="swiper-wrapper">
+            <!-- Slide 1 -->
+            <div class="swiper-slide">
+                <img src="https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=1920&q=80" alt="CSI Leadership" class="slide-bg">
+                <div class="slide-content">
+                    <div class="content-left">
+                        <div class="brand-tag">Africa's Leading CSI News</div>
+                        <h1 class="year">2024</h1>
+                        <h2 class="title">Connecting Decision-Makers To Change-Makers</h2>
+                        <p class="description">
+                            Simphiwe Mtetwa is a trusted platform for influence and impact, strategically connecting South Africa's foremost decision-makers with the changemakers driving meaningful progress in corporate social investment.
+                        </p>
+                        <a href="#" class="cta-button">
+                            Explore Our Impact
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                            </svg>
+                        </a>
+                        <div class="stats-row">
+                            <div class="stat-item">
+                                <div class="stat-number">4000+</div>
+                                <div class="stat-label">Subscribers</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">ZAR 7B</div>
+                                <div class="stat-label">Combined Budget</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">50+</div>
+                                <div class="stat-label">Decision Makers</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="swiper-slide">
+                <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1920&q=80" alt="CSI Intelligence" class="slide-bg">
+                <div class="slide-content">
+                    <div class="content-left">
+                        <div class="brand-tag">What We Do</div>
+                        <h1 class="year">CSI</h1>
+                        <h2 class="title">Africa's Leading Source For CSI Intelligence</h2>
+                        <p class="description">
+                            We deliver well-researched, forward-thinking content; produce professionally designed CSI reports for corporates, NGOs and foundations; convene high-level, results-driven events; and encourage fresh perspectives that challenge conventional thinking.
+                        </p>
+                        <a href="#" class="cta-button">
+                            Learn More
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="swiper-slide">
+                <img src="https://images.unsplash.com/photo-1531545514256-b1400bc00f31?w=1920&q=80" alt="Education Impact" class="slide-bg">
+                <div class="slide-content">
+                    <div class="content-left">
+                        <div class="brand-tag">Focus Areas</div>
+                        <h1 class="year">EDU</h1>
+                        <h2 class="title">Championing Real Change In Education</h2>
+                        <p class="description">
+                            Our many years of experience in the CSI sector enable us to tackle today's urgent challenges in education, housing, economic development, and natural disaster management, ideally positioning us to help our clients meet their CSI objectives.
+                        </p>
+                        <a href="#" class="cta-button">
+                            View Programmes
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 4 -->
+            <div class="swiper-slide">
+                <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=1920&q=80" alt="Matter Magazine" class="slide-bg">
+                <div class="slide-content">
+                    <div class="content-left">
+                        <div class="brand-tag">Publication</div>
+                        <h1 class="year">MATTER</h1>
+                        <h2 class="title">Matter Magazine – Winter Edition Now Out!</h2>
+                        <p class="description">
+                            The latest edition delves into the dynamic intersection of Black business and Corporate Social Investment (CSI), offering fresh perspectives, thought-provoking stories and bold design. Explore how Black-owned enterprises are driving economic inclusion and social impact.
+                        </p>
+                        <a href="#" class="cta-button">
+                            Buy Your Copy
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 5 -->
+            <div class="swiper-slide">
+                <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=1920&q=80" alt="Events & Conferences" class="slide-bg">
+                <div class="slide-content">
+                    <div class="content-left">
+                        <div class="brand-tag">Events</div>
+                        <h1 class="year">INDABA</h1>
+                        <h2 class="title">High-Level Results-Driven Events</h2>
+                        <p class="description">
+                            We convene high-level, results-driven events that bring together government, captains of industry, inspired authors, academics and industry enthusiasts to champion real change in South African social development through meaningful dialogue and collaboration.
+                        </p>
+                        <a href="#" class="cta-button">
+                            Upcoming Events
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 6 -->
+            <div class="swiper-slide">
+                <img src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=1920&q=80" alt="Future Vision" class="slide-bg">
+                <div class="slide-content">
+                    <div class="content-left">
+                        <div class="brand-tag">Our Vision</div>
+                        <h1 class="year">2050</h1>
+                        <h2 class="title">Shaping The Future Of Social Development</h2>
+                        <p class="description">
+                            Our 30-year vision and 10-year commitment to give 10% of our profits to communities through The GivenGroup Foundation give us the ability to impact more communities through two strong business models: the business and the foundation.
+                        </p>
+                        <a href="#" class="cta-button">
+                            Join Our Mission
+                            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Timeline Navigation -->
+    <div class="timeline-container" id="timelineContainer"></div>
+
+    <!-- Navigation Buttons -->
+    <div class="navigation">
+        <button class="nav-btn" id="prevBtn">←</button>
+        <button class="nav-btn" id="nextBtn">→</button>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div class="scroll-indicator">
+        <div class="mouse-icon">
+            <div class="mouse-wheel"></div>
+        </div>
+        <span>Scroll to explore</span>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        // Data for slides
+        const slideData = [
+            { year: '2024', label: 'Mission' },
+            { year: 'CSI', label: 'Intelligence' },
+            { year: 'EDU', label: 'Education' },
+            { year: 'MATTER', label: 'Magazine' },
+            { year: 'INDABA', label: 'Events' },
+            { year: '2050', label: 'Vision' }
+        ];
+
+        // Generate particles
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 30; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDelay = Math.random() * 15 + 's';
+            particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            particlesContainer.appendChild(particle);
+        }
+
+        // Generate timeline items
+        const timelineContainer = document.getElementById('timelineContainer');
+        slideData.forEach((item, index) => {
+            const timelineItem = document.createElement('div');
+            timelineItem.className = `timeline-item ${index === 0 ? 'active' : ''}`;
+            timelineItem.dataset.index = index;
+            timelineItem.innerHTML = `
+                <span class="timeline-year">${item.year}</span>
+                <div class="timeline-dot"></div>
+                <div class="timeline-line"></div>
+            `;
+            timelineItem.addEventListener('click', () => {
+                swiper.slideTo(index);
+            });
+            timelineContainer.appendChild(timelineItem);
+        });
+
+        // Initialize Swiper
+        const swiper = new Swiper('.main-swiper', {
+            speed: 1200,
+            parallax: true,
+            mousewheel: {
+                enabled: true,
+                sensitivity: 4,
+            },
+            keyboard: {
+                enabled: true,
+            },
+            effect: 'fade',
+            fadeEffect: {
+                crossFade: true
+            },
+            grabCursor: true,
+            on: {
+                init: function () {
+                    updateTimeline(this.activeIndex);
+                    updateProgress(this.activeIndex);
+                    hideLoader();
+                },
+                slideChange: function () {
+                    updateTimeline(this.activeIndex);
+                    updateProgress(this.activeIndex);
+                }
+            }
+        });
+
+        // Update timeline active state
+        function updateTimeline(activeIndex) {
+            const items = document.querySelectorAll('.timeline-item');
+            items.forEach((item, index) => {
+                if (index === activeIndex) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        }
+
+        // Update progress bar
+        function updateProgress(activeIndex) {
+            const progress = ((activeIndex + 1) / slideData.length) * 100;
+            document.getElementById('progressBar').style.width = `${progress}%`;
+        }
+
+        // Navigation buttons
+        document.getElementById('prevBtn').addEventListener('click', () => {
+            swiper.slidePrev();
+        });
+
+        document.getElementById('nextBtn').addEventListener('click', () => {
+            swiper.slideNext();
+        });
+
+        // Hide loader
+        function hideLoader() {
+            setTimeout(() => {
+                document.getElementById('loader').classList.add('hidden');
+            }, 800);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') {
+                swiper.slidePrev();
+            } else if (e.key === 'ArrowRight') {
+                swiper.slideNext();
+            }
+        });
+
+        // Touch/Swipe support
+        let touchStartY = 0;
+        let touchEndY = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartY = e.changedTouches[0].screenY;
+        });
+
+        document.addEventListener('touchend', (e) => {
+            touchEndY = e.changedTouches[0].screenY;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            if (touchEndY < touchStartY - 50) {
+                swiper.slideNext();
+            } else if (touchEndY > touchStartY + 50) {
+                swiper.slidePrev();
+            }
+        }
+    </script>
+</body>
+</html>
